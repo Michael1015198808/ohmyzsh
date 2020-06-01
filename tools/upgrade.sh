@@ -53,7 +53,8 @@ if [ -n "$remote" ]; then
 fi
 
 printf "${BLUE}%s${NORMAL}\n" "Updating Oh My Zsh"
-if  git pull --rebase --stat author master &&
+#git pull --rebase --stat author master &&
+if  git pull author master &&
     git pull origin master &&
     git push origin master
 then
