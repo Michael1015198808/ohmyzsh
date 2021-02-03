@@ -1,0 +1,31 @@
+export PATH=$HOME/.local/bin:$PATH
+
+function __sh__log {
+    if [ -n "$ZSH_NAME" ]
+    then
+        echo "\e[0;35m[$1]\e[0m ${@:2}"
+    else
+        echo "[$1] ${@:2}"
+    fi
+}
+
+for PKG in $HOME/.local/pkgs/*;
+do
+    if [ -f $PKG/.bashrc ]; then
+        PKG_RC="$PKG/.bashrc"
+        source $PKG_RC
+        __sh__log "rc   added" $PKG_RC
+    fi
+    PKG_BIN="$PKG/bin"
+    export PATH="$PKG_BIN:$PATH"
+    __sh__log "PATH added" "$PKG_BIN"
+done
+
+unset PKG_BIN PKG
+
+if [ -n "$ZSH_NAME" ]
+then
+    alias diff="diff --color=always"
+    bindkey ",," autosuggest-word_accept;
+    bindkey ",." autosuggest-accept;
+fi;
