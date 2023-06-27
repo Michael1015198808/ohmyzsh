@@ -1,0 +1,81 @@
+if [ -d $HOME/.local/bin ]
+then
+    export PATH=$HOME/.local/bin:$PATH;
+fi
+
+function cd_find {
+    s=`find . -name "$1"`
+    if [ `echo "$s" | wc -l` = 1 ]
+    then
+        cd $s;
+    else
+        echo "multiple candidates found:";
+        echo $s;
+        # read -k 1 NO;
+        # echo $NO;
+        # unset NO;
+    fi
+}
+
+function __sh__log {
+    if [ -n "$ZSH_NAME" ]
+    then
+        echo "\e[0;35m[$1]\e[0m ${@:2}"
+    else
+        echo "[$1] ${@:2}"
+    fi
+}
+
+if [ -d $HOME/.local/pkgs ]
+then
+    for PKG in $HOME/.local/pkgs/*;
+    do
+        if [ -f $PKG/.bashrc ]; then
+            PKG_RC="$PKG/.bashrc"
+            source $PKG_RC
+            __sh__log "rc   added" $PKG_RC
+        fi
+        PKG_BIN="$PKG/bin"
+        export PATH="$PKG_BIN:$PATH"
+        __sh__log "PATH added" "$PKG_BIN"
+    done
+fi
+
+unset PKG_BIN PKG
+
+if [ -n "$ZSH_NAME" ]
+then
+    alias diff="diff --color=always"
+    bindkey ",," autosuggest-word_accept;
+    bindkey ",." autosuggest-accept;
+fi;
+
+export PATH="$HOME/repos/scripts/scripts:$PATH"
+source /usr/share/autojump/autojump.zsh
+
+source /opt/lb/pa-datalog/lb-env-bin.sh
+
+PATH=/usr/lib/jvm/jdk1.6.0_45/bin/:$PATH
+export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_45
+export CHORD_MAIN=/home/zyyan/jchord/main
+export CHORD_INCUBATOR=/home/zyyan/jchord/main
+export PJBENCH=/home/zyyan/repos/pjbench
+export PAG_BENCH=/home/zyyan/repos/pjbench
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/zyyan/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/zyyan/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/zyyan/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/zyyan/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+# <<< conda initialize <<<
+http_proxy=162.105.88.109:3128
+https_proxy=162.105.88.109:3128
