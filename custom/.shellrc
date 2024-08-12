@@ -53,10 +53,7 @@ fi;
 export PATH="$HOME/repos/scripts/scripts:$PATH"
 source /usr/share/autojump/autojump.zsh
 
-source /opt/lb/pa-datalog/lb-env-bin.sh
 
-PATH=/usr/lib/jvm/jdk1.6.0_45/bin/:$PATH
-export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_45
 export CHORD_MAIN=/home/zyyan/jchord/main
 export CHORD_INCUBATOR=/home/zyyan/jchord/main
 export PJBENCH=/home/zyyan/repos/pjbench
@@ -75,7 +72,15 @@ else
     fi
 fi
 unset __conda_setup
-
 # <<< conda initialize <<<
-http_proxy=162.105.88.109:3128
-https_proxy=162.105.88.109:3128
+
+# export http_proxy=162.105.88.109:3128
+# export https_proxy=162.105.88.109:3128
+
+# https://unix.stackexchange.com/questions/589508/how-to-get-asterisk-in-zsh-to-have-same-behaviour-as-bash
+setopt no_nomatch
+
+alias diffsbs="diff --side-by-side --width=200"
+alias japanese="vim ~/repos/vocabulary/japanese.json"
+
+# export JAVA_HOME=$HOME/.local/pkgs/jdk1.6.0_45
