@@ -3,6 +3,29 @@ then
     export PATH=$HOME/.local/bin:$PATH;
 fi
 
+function my_watch {
+    while true;
+    do
+        ${@:2}
+        sleep $1;
+    done;
+}
+
+function doop_clean {
+    find $@ -type f | grep --invert-match 'Stats_[RM].*' | grep --invert-match profile.txt | xargs rm
+}
+
+function git_loop {
+    while ! git $@
+    do
+        true
+    done
+}
+
+function diffsort {
+    diff <(sort $1) <(sort $2)
+}
+
 function cd_find {
     s=`find . -name "$1"`
     if [ `echo "$s" | wc -l` = 1 ]
